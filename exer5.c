@@ -4,6 +4,9 @@
 int manageWords(char words[][5], int *size);
 int printWordPool(char words[][5], int *size);
 int insertWord(char words[][5], int *size);
+int deleteWord(char words[][5], int *size);
+int resetWords(char words[][5], int *size);
+int playGame();
 
 int main(){
     char words[][5] = {"feel", "teal", "reel"};
@@ -16,12 +19,18 @@ int main(){
     printf("[0] Exit.\n");
 
     printf("Choose an option: "); scanf("%i", &menu);
-
+    if (menu == 1){
+        playGame();
+    }
     if (menu == 2){
         manageWords(words, size);
     } else {
         return 0;
     }
+}
+
+int playGame(){
+    //making onli
 }
 
 int manageWords(char words[][5], int *size){
@@ -42,6 +51,12 @@ int manageWords(char words[][5], int *size){
         insertWord(words, size);
     } else if (menu == 3){
         deleteWord(words, size);
+    } else if (menu == 4){
+        resetWords(words, size);
+    } else if (menu == 0){
+        return 0;
+    } else {
+        printf("Invalid option.\n");
     }
 }
 }
@@ -63,5 +78,33 @@ int insertWord(char words[][5], int *size){
 }
 
 int deleteWord(char words[][5], int *size){
-    
+    char word[5];
+    printWordPool(words, size);
+    printf("Enter word to delete: ") ; scanf("%s", word);
+
+    int position = -1; 
+
+    for (int i = 0; i < *size; i++){
+        if (strcmp(words[i], word) == 0){
+            position = i;
+            break;
+        }
+    }
+
+    if (position == -1){
+        printf("Word is not on the list.\n");
+        return 0;
+    }
+
+    for (int i = position + 1; i < *size; i++){
+        for (int j = 0; j < 5; j++){
+            words[i - 1][j] = words[i][j];
+        }
+    }
+
+    (*size)--;
+}
+
+int resetWords(char words[][5], int *size){
+    *size = 0;
 }
