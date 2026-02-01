@@ -24,9 +24,9 @@ int main(){
 
     printf("Choose an option: "); scanf("%i", &menu);
     if (menu == 1){
-        playGame();
+        playGame(words, &size, &capacity);
     }
-    if (menu == 2){
+    else if (menu == 2){
         manageWords(words, &size, &capacity);
     } else {
         free(words);
@@ -34,14 +34,14 @@ int main(){
     }
 }
 
-int playGame(){
-    //making onli
+int playGame(char (*words)[5]){
+    char (*copy_list)[5] = words;
 }
 
 int manageWords(char (*words)[5], int *size, int *capacity){
     while (1){
     int menu;
-    printf("Manage Words\n");
+    printf("\nManage Words\n");
     printf("[1] Print Word Pool\n");
     printf("[2] Insert New Word\n");
     printf("[3] Delete Word\n");
@@ -81,9 +81,7 @@ int insertWord(char (**words)[5], int *size, int *capacity){
 
     char word[5];
     printf("Enter Word to insert: "); scanf("%4s", word);
-    for (int i = 0; i < 5; i++){
-        *words[*size][i] = word[i];
-    }
+    strcpy((*words)[*size], word);
     (*size)++;
 }
 
@@ -117,4 +115,10 @@ int deleteWord(char (*words)[5], int *size){
 
 int resetWords(int *size){
     *size = 0;
+}
+
+void copylist(char (*copy_list)[5], char (*orig_list)[5], int size){
+    for (int i = 0; i < size; i++){
+        strcpy(copy_list[i], orig_list[i]);
+    }
 }
