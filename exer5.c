@@ -7,7 +7,8 @@ int printWordPool(char (*words)[5], int *size);
 int insertWord(char (**words)[5], int *size, int *capacity);
 int deleteWord(char (*words)[5], int *size);
 int resetWords(int *size);
-int playGame();
+int playGame(char (*words)[5], int *size);
+void copylist(char (*copy_list)[5], char (*orig_list)[5], int size);
 
 int main(){
     int menu;
@@ -17,14 +18,16 @@ int main(){
 
     words = malloc(capacity * sizeof(*words));
 
-    printf("Welcome to Terminal Wordle.\n");
+    while (1) {
+    printf("\nWelcome to Terminal Wordle.\n");
     printf("[1] Play the game.\n");
     printf("[2] Manage words.\n");
     printf("[0] Exit.\n");
 
     printf("Choose an option: "); scanf("%i", &menu);
+    printf("\n");
     if (menu == 1){
-        playGame(words, &size, &capacity);
+        playGame(words, &size);
     }
     else if (menu == 2){
         manageWords(words, &size, &capacity);
@@ -33,14 +36,31 @@ int main(){
         return 0;
     }
 }
+}
 
-int playGame(char (*words)[5]){
-    char (*copy_list)[5] = words;
+
+int playGame(char (*words)[5], int *size){
+    char guess[5];
+    char (*copy_words)[5] = NULL;
+    copy_words = malloc(*size * sizeof(*copy_words));
+    copylist(copy_words, words, *size);
+
+    int random_word = rand() % *size;
+    char word[5];
+    strcpy(word, copy_words[random_word]);
+
+    for (int i = 0; i < 4; i++){
+        printf("_ ", word[i]);
+    }
+
+    printf("\nGuess: "); scanf("%4s", guess);
+
+    free(copy_words);
 }
 
 int manageWords(char (*words)[5], int *size, int *capacity){
-    while (1){
     int menu;
+    while (1){
     printf("\nManage Words\n");
     printf("[1] Print Word Pool\n");
     printf("[2] Insert New Word\n");
