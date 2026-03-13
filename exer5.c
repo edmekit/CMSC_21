@@ -68,7 +68,7 @@ int playGame(char (*words)[5], int *size){
             for (int i = 0; i < 4; i++){
                 if (guess[i] == word[i]){
                     guess_display[i] = guess[i];
-                } else if (checkIn(word, guess[i], *size)){
+                } else if (checkIn(word, guess[i], 4)){
                     guess_display[i] = '*';
                 } else {
                     guess_display[i] = '-';
@@ -172,4 +172,5 @@ int checkIn(char words[5], char a, int size){
             return 1;
         }
     }
+    return 0;
 }
