@@ -9,6 +9,7 @@ int deleteWord(char (*words)[5], int *size);
 int resetWords(int *size);
 int playGame(char (*words)[5], int *size);
 void copylist(char (*copy_list)[5], char (*orig_list)[5], int size);
+int checkIn(char words[5], char a, int size);
 
 int main(){
     int menu;
@@ -40,6 +41,11 @@ int main(){
 
 
 int playGame(char (*words)[5], int *size){
+    if (*size == 0) {
+        printf("No words available to play the game.\n");
+        return 0;
+    }
+
     char guess[5];
     char (*copy_words)[5] = NULL;
     copy_words = malloc(*size * sizeof(*copy_words));
@@ -48,12 +54,29 @@ int playGame(char (*words)[5], int *size){
     int random_word = rand() % *size;
     char word[5];
     strcpy(word, copy_words[random_word]);
+    char guess_display[4] = {'_', '_', '_', '_'};
+    while(1){
+        for (int i = 0; i < 4; i++){
+            printf("%c", guess_display[i]);
+        }
 
-    for (int i = 0; i < 4; i++){
-        printf("_ ", word[i]);
+        printf("\nGuess: "); scanf("%4s", guess);
+        if (strcmp(word, guess) == 0){
+            printf("You won!");
+            break;
+        } else {
+            for (int i = 0; i < 4; i++){
+                if (guess[i] == word[i]){
+                    guess_display[i] = guess[i];
+                } else if (checkIn(word, guess[i], *size)){
+                    guess_display[i] = '*';
+                } else {
+                    guess_display[i] = '-';
+                }
+            }
+        }
     }
-
-    printf("\nGuess: "); scanf("%4s", guess);
+    
 
     free(copy_words);
 }
@@ -140,5 +163,13 @@ int resetWords(int *size){
 void copylist(char (*copy_list)[5], char (*orig_list)[5], int size){
     for (int i = 0; i < size; i++){
         strcpy(copy_list[i], orig_list[i]);
+    }
+}
+
+int checkIn(char words[5], char a, int size){
+    for (int i = 0; i < size; i++){
+        if (words[i] == a){
+            return 1;
+        }
     }
 }
