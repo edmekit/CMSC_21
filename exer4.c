@@ -4,7 +4,7 @@ int buy_mats(int gold);
 void craft_weapons();
 int sell_all_weapons(int gold);
 void check_inventory(int gold);
-int iron, wood, sword, spear, axe;
+int iron = 0, wood = 0, sword = 0, spear = 0, axe = 0;
 
 int main(void){
     int day, gold, menu;
