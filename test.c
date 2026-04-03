@@ -1,33 +1,27 @@
 #include <stdio.h>
 
-int recur(int num, int sum);
-void div7(int num, int* count);
+
+
 
 int main(){
-    int count = 0;
-    int* k = &count;
-    (*k) = 1;
-    printf("%d\n", count);
+    FILE* fp;
+    char str[100];
+    int i;
+    char cur_char;
 
-    div7(25, &count);
-    printf("%d\n", count);
-    printf("%d\n", recur(9348, 0));
+    fp = fopen("testfile.txt", "r+");
+
+    if (fgetc(fp) == EOF) {
+        printf("Enter your name: "); fgets(str, 100, stdin);
+        fputs(str, fp);
+    } else {
+        rewind(fp);
+        printf("Hello, ");
+        fgets(str, 100, fp);
+        printf("%s", str);
+    }
+
+
+    fclose(fp);
 }
 
-int recur(int num, int sum){
-    if (num == 0){
-        return sum;
-    }
-    else {
-        int last = num % 10;
-        return recur((num - last) / 10, sum + last);
-    }
-}
-
-void div7(int num, int* count){
-    for (int i = 1; i <= num; i++){
-        if (i % 7 == 0){
-            (*count)++;
-        }
-    }
-}
